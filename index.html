@@ -214,6 +214,83 @@
   .form-group input:focus,
   .form-group select:focus { border-color: var(--green); }
 
+  .divider {
+    border: none;
+    border-top: 0.5px solid var(--border);
+    margin: 14px 0;
+  }
+
+  .guests-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .guests-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+
+  .add-guest-btn {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--green-dark);
+    background: var(--green-light);
+    border: 0.5px solid #9FE1CB;
+    border-radius: var(--radius-sm);
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .add-guest-btn:hover { background: #9FE1CB; }
+
+  .guest-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .guest-row input {
+    flex: 1;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    padding: 7px 10px;
+    border-radius: var(--radius-sm);
+    border: 0.5px solid var(--border-strong);
+    background: var(--bg);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .guest-row input:focus { border-color: var(--green); }
+
+  .remove-guest-btn {
+    font-size: 16px;
+    color: var(--text-tertiary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 5px;
+    line-height: 1;
+    border-radius: 4px;
+    transition: color 0.15s, background 0.15s;
+    flex-shrink: 0;
+  }
+
+  .remove-guest-btn:hover { color: #E24B4A; background: #FCEBEB; }
+
+  .no-guests-note {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-style: italic;
+    padding: 4px 0;
+  }
+
   .btn-submit {
     width: 100%;
     padding: 10px;
@@ -236,9 +313,9 @@
 
   .person-row {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 10px;
-    padding: 10px 0;
+    padding: 12px 0;
     border-bottom: 0.5px solid var(--border);
   }
 
@@ -254,12 +331,49 @@
     font-size: 12px;
     font-weight: 500;
     flex-shrink: 0;
+    margin-top: 1px;
   }
 
   .person-info { flex: 1; min-width: 0; }
   .person-name { font-size: 14px; font-weight: 500; color: var(--text); }
-  .person-dates { font-size: 11px; color: var(--text-secondary); margin-top: 1px; }
+  .person-dates { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+
+  .person-guests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 6px;
+  }
+
+  .guest-chip {
+    font-size: 11px;
+    background: var(--bg-secondary);
+    border: 0.5px solid var(--border);
+    border-radius: 20px;
+    padding: 2px 8px;
+    color: var(--text-secondary);
+  }
+
+  .person-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
   .person-days { font-size: 12px; color: var(--text-secondary); white-space: nowrap; }
+
+  .headcount-badge {
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--green-light);
+    color: var(--green-dark);
+    border: 0.5px solid #9FE1CB;
+    border-radius: 20px;
+    padding: 2px 8px;
+    white-space: nowrap;
+  }
 
   .remove-btn {
     font-size: 18px;
@@ -267,22 +381,25 @@
     background: none;
     border: none;
     cursor: pointer;
-    padding: 4px 6px;
+    padding: 2px 5px;
     line-height: 1;
     border-radius: 4px;
     transition: color 0.15s, background 0.15s;
   }
 
   .remove-btn:hover { color: #E24B4A; background: #FCEBEB; }
+
   .empty-state { text-align: center; padding: 2.5rem 1rem; color: var(--text-tertiary); font-size: 13px; }
   .loading-state { text-align: center; padding: 1.5rem 1rem; color: var(--text-tertiary); font-size: 13px; }
 
   .stats-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     margin-bottom: 1rem;
   }
+
+  @media (max-width: 480px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
 
   .stat { background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 14px 12px; text-align: center; }
   .stat-num { font-size: 22px; font-weight: 500; color: var(--text); }
@@ -424,6 +541,17 @@
             <input type="date" id="inp-to" min="2026-12-18" max="2027-01-10" value="2027-01-10">
           </div>
         </div>
+
+        <hr class="divider">
+
+        <div class="guests-header">
+          <span class="guests-label">People joining you <span style="font-weight:400;color:var(--text-tertiary)">(optional)</span></span>
+          <button class="add-guest-btn" onclick="addGuestField()">+ Add person</button>
+        </div>
+        <div id="guest-fields">
+          <div class="no-guests-note">Just you for now — click "Add person" to include others.</div>
+        </div>
+
         <button class="btn-submit" id="submit-btn" onclick="addPerson()">Add my availability</button>
         <div class="form-error" id="form-error"></div>
       </div>
@@ -452,7 +580,7 @@
       <div class="deploy-block">
         <strong>Repo:</strong> SahirGandhi / Vietnam-trip-2026<br>
         <strong>Live URL:</strong> <code>sahirgandhi.github.io/Vietnam-trip-2026</code><br>
-        <strong>Status:</strong> <span class="chip chip-amber">Ready to deploy</span>
+        <strong>Status:</strong> <span class="chip chip-green">Live</span>
       </div>
     </div>
   </div>
@@ -467,6 +595,7 @@ const WIN_START = new Date('2026-12-18');
 const WIN_END   = new Date('2027-01-10');
 
 let sb, people = [];
+let guestCount = 0;
 
 function checkPw() {
   const val = document.getElementById('gate-pw').value.trim();
@@ -501,10 +630,41 @@ async function loadPeople() {
     days: r.max_days,
     from: parseDate(r.available_from),
     to: parseDate(r.available_to),
+    guests: r.guests || [],
     color: COLORS[i % COLORS.length]
   }));
   renderList();
   if (document.getElementById('tab-results').classList.contains('active')) renderResults();
+}
+
+function addGuestField() {
+  const container = document.getElementById('guest-fields');
+  const note = container.querySelector('.no-guests-note');
+  if (note) note.remove();
+  guestCount++;
+  const id = 'guest-' + guestCount;
+  const row = document.createElement('div');
+  row.className = 'guest-row';
+  row.id = 'guest-row-' + guestCount;
+  row.innerHTML = `
+    <input type="text" id="${id}" placeholder="Guest name" maxlength="30">
+    <button class="remove-guest-btn" onclick="removeGuestField(${guestCount})" title="Remove">×</button>`;
+  container.appendChild(row);
+}
+
+function removeGuestField(n) {
+  const row = document.getElementById('guest-row-' + n);
+  if (row) row.remove();
+  const container = document.getElementById('guest-fields');
+  if (!container.querySelector('.guest-row')) {
+    container.innerHTML = '<div class="no-guests-note">Just you for now — click "Add person" to include others.</div>';
+  }
+}
+
+function getGuestNames() {
+  return Array.from(document.querySelectorAll('#guest-fields .guest-row input'))
+    .map(i => i.value.trim())
+    .filter(v => v.length > 0);
 }
 
 function showTab(t) {
@@ -535,13 +695,26 @@ async function addPerson() {
   if (diffDays(fd, td) < days) { showError('Your availability window must be at least as long as your max duration.'); return; }
   if (people.find(p => p.name.toLowerCase() === name.toLowerCase())) { showError('That name is already added.'); return; }
   showError('');
+
+  const guests = getGuestNames();
   const btn = document.getElementById('submit-btn');
   btn.disabled = true; btn.textContent = 'Saving...';
-  const { error } = await sb.from('availability').insert({ name, available_from: from, available_to: to, max_days: days });
+
+  const { error } = await sb.from('availability').insert({
+    name,
+    available_from: from,
+    available_to: to,
+    max_days: days,
+    guests: guests
+  });
+
   btn.disabled = false; btn.textContent = 'Add my availability';
   if (error) { showError('Could not save — please try again.'); console.error(error); return; }
+
   document.getElementById('inp-name').value = '';
   document.getElementById('inp-days').value = '';
+  document.getElementById('guest-fields').innerHTML = '<div class="no-guests-note">Just you for now — click "Add person" to include others.</div>';
+  guestCount = 0;
 }
 
 async function removePerson(id) {
@@ -554,16 +727,30 @@ function renderList() {
   const el = document.getElementById('person-list');
   if (!people.length) { el.innerHTML = '<div class="empty-state">No responses yet — be the first to add yours!</div>'; return; }
   el.innerHTML = '<div class="card" style="padding:0.5rem 1.25rem">' +
-    people.map(p => `
-      <div class="person-row">
-        <div class="avatar" style="background:${p.color}22;color:${p.color}">${initials(p.name)}</div>
-        <div class="person-info">
-          <div class="person-name">${p.name}</div>
-          <div class="person-dates">${fmtShort(p.from)} – ${fmtShort(p.to)}</div>
-        </div>
-        <div class="person-days">${p.days}d max</div>
-        <button class="remove-btn" onclick="removePerson('${p.id}')" title="Remove">×</button>
-      </div>`).join('') + '</div>';
+    people.map(p => {
+      const totalPeople = 1 + (p.guests ? p.guests.length : 0);
+      const guestChips = p.guests && p.guests.length
+        ? p.guests.map(g => `<span class="guest-chip">${g}</span>`).join('')
+        : '';
+      return `
+        <div class="person-row">
+          <div class="avatar" style="background:${p.color}22;color:${p.color}">${initials(p.name)}</div>
+          <div class="person-info">
+            <div class="person-name">${p.name}</div>
+            <div class="person-dates">${fmtShort(p.from)} – ${fmtShort(p.to)}</div>
+            ${guestChips ? `<div class="person-guests">${guestChips}</div>` : ''}
+          </div>
+          <div class="person-right">
+            <div class="person-days">${p.days}d max</div>
+            ${totalPeople > 1 ? `<div class="headcount-badge">${totalPeople} people</div>` : ''}
+            <button class="remove-btn" onclick="removePerson('${p.id}')" title="Remove">×</button>
+          </div>
+        </div>`;
+    }).join('') + '</div>';
+}
+
+function getTotalHeadcount() {
+  return people.reduce((sum, p) => sum + 1 + (p.guests ? p.guests.length : 0), 0);
 }
 
 function computeOverlap() {
@@ -575,9 +762,14 @@ function computeOverlap() {
     for (let len = minDays; len >= 3; len--) {
       const wEnd = new Date(d.getTime() + len * 86400000);
       if (wEnd > WIN_END) continue;
-      const count = people.filter(p => p.from <= d && p.to >= wEnd && p.days >= len).length;
+      const matching = people.filter(p => p.from <= d && p.to >= wEnd && p.days >= len);
+      const count = matching.length;
+      const headcount = matching.reduce((s, p) => s + 1 + (p.guests ? p.guests.length : 0), 0);
       const score = count * 100 + len;
-      if (count > 0 && score > bestScore) { bestScore = score; best = { start: new Date(d), end: new Date(wEnd), count, len, total: people.length }; }
+      if (count > 0 && score > bestScore) {
+        bestScore = score;
+        best = { start: new Date(d), end: new Date(wEnd), count, len, total: people.length, headcount };
+      }
     }
     d = new Date(d.getTime() + 86400000);
   }
@@ -594,10 +786,12 @@ function computeAlternatives(best) {
       const wEnd = new Date(d.getTime() + len * 86400000);
       if (wEnd > WIN_END) continue;
       if (dayStr(d) === dayStr(best.start) && dayStr(wEnd) === dayStr(best.end)) continue;
-      const count = people.filter(p => p.from <= d && p.to >= wEnd && p.days >= len).length;
+      const matching = people.filter(p => p.from <= d && p.to >= wEnd && p.days >= len);
+      const count = matching.length;
+      const headcount = matching.reduce((s, p) => s + 1 + (p.guests ? p.guests.length : 0), 0);
       if (count >= Math.max(2, best.count - 1)) {
         if (!alts.find(a => dayStr(a.start) === dayStr(d) && a.len === len))
-          alts.push({ start: new Date(d), end: new Date(wEnd), count, len });
+          alts.push({ start: new Date(d), end: new Date(wEnd), count, len, headcount });
       }
     }
     d = new Date(d.getTime() + 86400000);
@@ -647,28 +841,34 @@ function renderResults() {
   const best = computeOverlap();
   if (!best) { el.innerHTML = '<div class="empty-state">No overlapping window found. Try expanding your availability dates.</div>'; return; }
   const alts = computeAlternatives(best);
+  const totalHeadcount = getTotalHeadcount();
+
   let html = `<div class="stats-grid">
     <div class="stat"><div class="stat-num">${people.length}</div><div class="stat-lbl">Responses</div></div>
-    <div class="stat"><div class="stat-num">${best.count}</div><div class="stat-lbl">Can make it</div></div>
+    <div class="stat"><div class="stat-num">${totalHeadcount}</div><div class="stat-lbl">Total travellers</div></div>
+    <div class="stat"><div class="stat-num">${best.headcount}</div><div class="stat-lbl">Can make best window</div></div>
     <div class="stat"><div class="stat-num">${best.len}</div><div class="stat-lbl">Days together</div></div>
   </div>`;
+
   html += `<div class="result-best">
     <div class="result-best-label">Best window</div>
     <div class="result-best-window">${fmtDate(best.start)} – ${fmtDate(best.end)}</div>
-    <div class="result-best-sub">${best.count} of ${best.total} people available for ${best.len} days</div>
+    <div class="result-best-sub">${best.headcount} of ${totalHeadcount} travellers available &nbsp;·&nbsp; ${best.count} of ${best.total} responses &nbsp;·&nbsp; ${best.len} days</div>
   </div>`;
+
   if (alts.length) {
     html += '<div class="section-label" style="margin-top:0.25rem;margin-bottom:8px">Alternatives</div>';
     alts.forEach(a => {
       html += `<div class="result-alt">
         <div>
           <div class="result-alt-window">${fmtDate(a.start)} – ${fmtDate(a.end)}</div>
-          <div class="result-alt-sub">${a.count} of ${people.length} people</div>
+          <div class="result-alt-sub">${a.headcount} travellers &nbsp;·&nbsp; ${a.count} of ${people.length} responses</div>
         </div>
         <div class="result-alt-days">${a.len} days</div>
       </div>`;
     });
   }
+
   html += buildCalendar(best);
   el.innerHTML = html;
 }
