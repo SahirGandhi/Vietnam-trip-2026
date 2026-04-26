@@ -9,437 +9,91 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root {
-    --green: #1D9E75;
-    --green-dark: #0F6E56;
-    --green-light: #E1F5EE;
-    --text: #1a1a1a;
-    --text-secondary: #666;
-    --text-tertiary: #999;
-    --border: rgba(0,0,0,0.1);
-    --border-strong: rgba(0,0,0,0.18);
-    --bg: #f8f7f4;
-    --bg-card: #ffffff;
-    --bg-secondary: #f2f1ee;
-    --radius: 12px;
-    --radius-sm: 8px;
+    --green: #1D9E75; --green-dark: #0F6E56; --green-light: #E1F5EE;
+    --text: #1a1a1a; --text-secondary: #666; --text-tertiary: #999;
+    --border: rgba(0,0,0,0.1); --border-strong: rgba(0,0,0,0.18);
+    --bg: #f8f7f4; --bg-card: #ffffff; --bg-secondary: #f2f1ee;
+    --radius: 12px; --radius-sm: 8px;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    font-size: 15px;
-    line-height: 1.6;
-  }
-
-  #gate {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-  }
-
-  .gate-card {
-    background: var(--bg-card);
-    border: 0.5px solid var(--border-strong);
-    border-radius: var(--radius);
-    padding: 2.5rem 2rem;
-    width: 100%;
-    max-width: 360px;
-    text-align: center;
-  }
-
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; font-size: 15px; line-height: 1.6; }
+  #gate { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+  .gate-card { background: var(--bg-card); border: 0.5px solid var(--border-strong); border-radius: var(--radius); padding: 2.5rem 2rem; width: 100%; max-width: 360px; text-align: center; }
   .gate-flag { margin-bottom: 1rem; display: block; }
-
-  .gate-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 24px;
-    color: var(--text);
-    margin-bottom: 4px;
-  }
-
+  .gate-title { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--text); margin-bottom: 4px; }
   .gate-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 1.75rem; }
-
-  .gate-input {
-    width: 100%;
-    padding: 10px 14px;
-    font-size: 15px;
-    font-family: 'DM Sans', sans-serif;
-    border: 0.5px solid var(--border-strong);
-    border-radius: var(--radius-sm);
-    background: var(--bg);
-    color: var(--text);
-    text-align: center;
-    letter-spacing: 0.05em;
-    margin-bottom: 10px;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
+  .gate-input { width: 100%; padding: 10px 14px; font-size: 15px; font-family: 'DM Sans', sans-serif; border: 0.5px solid var(--border-strong); border-radius: var(--radius-sm); background: var(--bg); color: var(--text); text-align: center; letter-spacing: 0.05em; margin-bottom: 10px; outline: none; transition: border-color 0.2s; }
   .gate-input:focus { border-color: var(--green); }
   .gate-input.error { border-color: #E24B4A; }
-
-  .gate-btn {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    font-weight: 500;
-    font-family: 'DM Sans', sans-serif;
-    background: var(--green);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-  }
-
+  .gate-btn { width: 100%; padding: 10px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; background: var(--green); color: #fff; border: none; border-radius: var(--radius-sm); cursor: pointer; transition: background 0.2s, transform 0.1s; }
   .gate-btn:hover { background: var(--green-dark); }
   .gate-btn:active { transform: scale(0.98); }
   .gate-error { font-size: 12px; color: #E24B4A; margin-top: 8px; min-height: 18px; }
-
   #app { display: none; }
-
-  .topbar {
-    background: var(--bg-card);
-    border-bottom: 0.5px solid var(--border);
-    padding: 0 1.5rem;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-
-  .topbar-inner {
-    max-width: 720px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 0;
-  }
-
-  .vn-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--green-light);
-    border: 0.5px solid #9FE1CB;
-    border-radius: 20px;
-    padding: 3px 10px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--green-dark);
-  }
-
-  .topbar-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 17px;
-    color: var(--text);
-    flex: 1;
-  }
-
+  .topbar { background: var(--bg-card); border-bottom: 0.5px solid var(--border); padding: 0 1.5rem; position: sticky; top: 0; z-index: 10; }
+  .topbar-inner { max-width: 720px; margin: 0 auto; display: flex; align-items: center; gap: 12px; padding: 14px 0; }
+  .vn-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--green-light); border: 0.5px solid #9FE1CB; border-radius: 20px; padding: 3px 10px; font-size: 12px; font-weight: 500; color: var(--green-dark); }
+  .topbar-title { font-family: 'DM Serif Display', serif; font-size: 17px; color: var(--text); flex: 1; }
   .topbar-meta { font-size: 12px; color: var(--text-tertiary); }
   .main { max-width: 720px; margin: 0 auto; padding: 1.5rem; }
-
-  .tabs {
-    display: flex;
-    border-bottom: 0.5px solid var(--border);
-    margin-bottom: 1.5rem;
-  }
-
-  .tab {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    padding: 9px 16px;
-    border: none;
-    border-bottom: 2px solid transparent;
-    background: none;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: color 0.15s;
-  }
-
+  .tabs { display: flex; border-bottom: 0.5px solid var(--border); margin-bottom: 1.5rem; }
+  .tab { font-size: 13px; font-weight: 500; color: var(--text-secondary); padding: 9px 16px; border: none; border-bottom: 2px solid transparent; background: none; cursor: pointer; white-space: nowrap; transition: color 0.15s; }
   .tab:hover { color: var(--text); }
   .tab.active { color: var(--text); border-bottom-color: var(--text); }
   .panel { display: none; }
   .panel.active { display: block; }
-
-  .card {
-    background: var(--bg-card);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius);
-    padding: 1.25rem;
-    margin-bottom: 1rem;
-  }
-
-  .section-label {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: .06em;
-    color: var(--text-tertiary);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 12px;
-  }
-
+  .card { background: var(--bg-card); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1rem; }
+  .section-label { font-size: 11px; font-weight: 500; letter-spacing: .06em; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 12px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
   @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
-
   .form-group { display: flex; flex-direction: column; gap: 5px; }
   .form-group label { font-size: 12px; color: var(--text-secondary); }
-
-  .form-group input,
-  .form-group select {
-    font-size: 14px;
-    font-family: 'DM Sans', sans-serif;
-    padding: 9px 11px;
-    border-radius: var(--radius-sm);
-    border: 0.5px solid var(--border-strong);
-    background: var(--bg);
-    color: var(--text);
-    width: 100%;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .form-group input:focus,
-  .form-group select:focus { border-color: var(--green); }
-
-  .divider {
-    border: none;
-    border-top: 0.5px solid var(--border);
-    margin: 14px 0;
-  }
-
-  .guests-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-
-  .guests-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-secondary);
-  }
-
-  .add-guest-btn {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--green-dark);
-    background: var(--green-light);
-    border: 0.5px solid #9FE1CB;
-    border-radius: var(--radius-sm);
-    padding: 4px 10px;
-    cursor: pointer;
-    transition: background 0.15s;
-  }
-
+  .form-group input, .form-group select { font-size: 14px; font-family: 'DM Sans', sans-serif; padding: 9px 11px; border-radius: var(--radius-sm); border: 0.5px solid var(--border-strong); background: var(--bg); color: var(--text); width: 100%; outline: none; transition: border-color 0.2s; }
+  .form-group input:focus, .form-group select:focus { border-color: var(--green); }
+  .divider { border: none; border-top: 0.5px solid var(--border); margin: 14px 0; }
+  .guests-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .guests-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+  .add-guest-btn { font-size: 12px; font-weight: 500; color: var(--green-dark); background: var(--green-light); border: 0.5px solid #9FE1CB; border-radius: var(--radius-sm); padding: 4px 10px; cursor: pointer; transition: background 0.15s; }
   .add-guest-btn:hover { background: #9FE1CB; }
-
-  .guest-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-
-  .guest-row input {
-    flex: 1;
-    font-size: 13px;
-    font-family: 'DM Sans', sans-serif;
-    padding: 7px 10px;
-    border-radius: var(--radius-sm);
-    border: 0.5px solid var(--border-strong);
-    background: var(--bg);
-    color: var(--text);
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
+  .guest-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .guest-row input { flex: 1; font-size: 13px; font-family: 'DM Sans', sans-serif; padding: 7px 10px; border-radius: var(--radius-sm); border: 0.5px solid var(--border-strong); background: var(--bg); color: var(--text); outline: none; transition: border-color 0.2s; }
   .guest-row input:focus { border-color: var(--green); }
-
-  .remove-guest-btn {
-    font-size: 16px;
-    color: var(--text-tertiary);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px 5px;
-    line-height: 1;
-    border-radius: 4px;
-    transition: color 0.15s, background 0.15s;
-    flex-shrink: 0;
-  }
-
+  .remove-guest-btn { font-size: 16px; color: var(--text-tertiary); background: none; border: none; cursor: pointer; padding: 4px 5px; line-height: 1; border-radius: 4px; transition: color 0.15s, background 0.15s; flex-shrink: 0; }
   .remove-guest-btn:hover { color: #E24B4A; background: #FCEBEB; }
-
-  .no-guests-note {
-    font-size: 12px;
-    color: var(--text-tertiary);
-    font-style: italic;
-    padding: 4px 0;
-  }
-
-  .btn-submit {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    font-weight: 500;
-    font-family: 'DM Sans', sans-serif;
-    background: var(--green);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-    margin-top: 4px;
-  }
-
+  .no-guests-note { font-size: 12px; color: var(--text-tertiary); font-style: italic; padding: 4px 0; }
+  .btn-submit { width: 100%; padding: 10px; font-size: 14px; font-weight: 500; font-family: 'DM Sans', sans-serif; background: var(--green); color: #fff; border: none; border-radius: var(--radius-sm); cursor: pointer; transition: background 0.2s, transform 0.1s; margin-top: 4px; }
   .btn-submit:hover { background: var(--green-dark); }
   .btn-submit:active { transform: scale(0.98); }
   .btn-submit:disabled { background: #9FE1CB; cursor: not-allowed; }
   .form-error { font-size: 12px; color: #E24B4A; margin-top: 8px; min-height: 16px; }
-
-  .person-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 12px 0;
-    border-bottom: 0.5px solid var(--border);
-  }
-
+  .person-row { display: flex; align-items: flex-start; gap: 10px; padding: 12px 0; border-bottom: 0.5px solid var(--border); }
   .person-row:last-child { border-bottom: none; }
-
-  .avatar {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
-    font-weight: 500;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
-
+  .avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; flex-shrink: 0; margin-top: 1px; }
   .person-info { flex: 1; min-width: 0; }
   .person-name { font-size: 14px; font-weight: 500; color: var(--text); }
   .person-dates { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
-
-  .person-guests {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-top: 6px;
-  }
-
-  .guest-chip {
-    font-size: 11px;
-    background: var(--bg-secondary);
-    border: 0.5px solid var(--border);
-    border-radius: 20px;
-    padding: 2px 8px;
-    color: var(--text-secondary);
-  }
-
-  .person-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-    flex-shrink: 0;
-  }
-
+  .person-guests { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+  .guest-chip { font-size: 11px; background: var(--bg-secondary); border: 0.5px solid var(--border); border-radius: 20px; padding: 2px 8px; color: var(--text-secondary); }
+  .person-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex-shrink: 0; }
   .person-days { font-size: 12px; color: var(--text-secondary); white-space: nowrap; }
-
-  .headcount-badge {
-    font-size: 11px;
-    font-weight: 500;
-    background: var(--green-light);
-    color: var(--green-dark);
-    border: 0.5px solid #9FE1CB;
-    border-radius: 20px;
-    padding: 2px 8px;
-    white-space: nowrap;
-  }
-
-  .remove-btn {
-    font-size: 18px;
-    color: var(--text-tertiary);
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 2px 5px;
-    line-height: 1;
-    border-radius: 4px;
-    transition: color 0.15s, background 0.15s;
-  }
-
+  .headcount-badge { font-size: 11px; font-weight: 500; background: var(--green-light); color: var(--green-dark); border: 0.5px solid #9FE1CB; border-radius: 20px; padding: 2px 8px; white-space: nowrap; }
+  .remove-btn { font-size: 18px; color: var(--text-tertiary); background: none; border: none; cursor: pointer; padding: 2px 5px; line-height: 1; border-radius: 4px; transition: color 0.15s, background 0.15s; }
   .remove-btn:hover { color: #E24B4A; background: #FCEBEB; }
-
   .empty-state { text-align: center; padding: 2.5rem 1rem; color: var(--text-tertiary); font-size: 13px; }
   .loading-state { text-align: center; padding: 1.5rem 1rem; color: var(--text-tertiary); font-size: 13px; }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-bottom: 1rem;
-  }
-
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1rem; }
   @media (max-width: 480px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
-
   .stat { background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 14px 12px; text-align: center; }
   .stat-num { font-size: 22px; font-weight: 500; color: var(--text); }
   .stat-lbl { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
-
-  .result-best {
-    background: var(--green-light);
-    border: 0.5px solid #9FE1CB;
-    border-radius: var(--radius);
-    padding: 1.25rem;
-    margin-bottom: 10px;
-  }
-
+  .result-best { background: var(--green-light); border: 0.5px solid #9FE1CB; border-radius: var(--radius); padding: 1.25rem; margin-bottom: 10px; }
   .result-best-label { font-size: 11px; font-weight: 500; color: var(--green-dark); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 5px; }
-
-  .result-best-window {
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px;
-    color: #085041;
-    margin-bottom: 4px;
-  }
-
+  .result-best-window { font-family: 'DM Serif Display', serif; font-size: 20px; color: #085041; margin-bottom: 4px; }
   .result-best-sub { font-size: 13px; color: var(--green-dark); }
-
-  .result-alt {
-    background: var(--bg-secondary);
-    border: 0.5px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 1rem 1.25rem;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-  }
-
+  .result-alt { background: var(--bg-secondary); border: 0.5px solid var(--border); border-radius: var(--radius-sm); padding: 1rem 1.25rem; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .result-alt-window { font-size: 14px; font-weight: 500; color: var(--text); }
   .result-alt-sub { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
   .result-alt-days { font-size: 12px; background: var(--bg-card); border: 0.5px solid var(--border); border-radius: 20px; padding: 3px 10px; white-space: nowrap; color: var(--text-secondary); }
-
   .cal-month-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); margin-bottom: 6px; }
   .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-bottom: 16px; }
   .cal-head { font-size: 10px; color: var(--text-tertiary); text-align: center; padding: 3px 0; }
@@ -449,20 +103,16 @@
   .cal-day.partial { background: #FAC775; color: #633806; }
   .cal-day.high { background: #9FE1CB; color: #085041; font-weight: 500; }
   .cal-day.best { background: var(--green); color: #fff; font-weight: 500; }
-
   .legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px; }
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-secondary); }
   .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
-
   .announce-item { padding: 12px 0; border-bottom: 0.5px solid var(--border); }
   .announce-item:last-child { border-bottom: none; }
   .announce-date { font-size: 11px; color: var(--text-tertiary); margin-bottom: 4px; }
   .announce-text { font-size: 14px; color: var(--text); line-height: 1.6; }
-
   .chip { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
   .chip-green { background: var(--green-light); color: var(--green-dark); border: 0.5px solid #9FE1CB; }
   .chip-amber { background: #FAEEDA; color: #854F0B; border: 0.5px solid #FAC775; }
-
   .deploy-block { background: var(--bg-secondary); border-radius: var(--radius-sm); padding: 14px; font-size: 13px; color: var(--text-secondary); line-height: 1.8; }
   .deploy-block strong { color: var(--text); font-weight: 500; }
   .deploy-block code { font-family: monospace; font-size: 12px; color: var(--green-dark); background: var(--green-light); padding: 1px 5px; border-radius: 3px; }
@@ -480,8 +130,7 @@
     </span>
     <div class="gate-title">Vietnam 2026</div>
     <div class="gate-sub">Enter the trip password to continue</div>
-    <input type="password" class="gate-input" id="gate-pw" placeholder="password" autocomplete="off"
-      onkeydown="if(event.key==='Enter')checkPw()">
+    <input type="password" class="gate-input" id="gate-pw" placeholder="password" autocomplete="off" onkeydown="if(event.key==='Enter')checkPw()">
     <button class="gate-btn" onclick="checkPw()">Enter</button>
     <div class="gate-error" id="gate-error"></div>
   </div>
@@ -522,6 +171,7 @@
             <select id="inp-days">
               <option value="">Select...</option>
               <option value="5">5 days</option>
+              <option value="6">6 days</option>
               <option value="7">7 days</option>
               <option value="8">8 days</option>
               <option value="10">10 days</option>
@@ -541,9 +191,7 @@
             <input type="date" id="inp-to" min="2026-12-18" max="2027-01-10" value="2027-01-10">
           </div>
         </div>
-
         <hr class="divider">
-
         <div class="guests-header">
           <span class="guests-label">People joining you <span style="font-weight:400;color:var(--text-tertiary)">(optional)</span></span>
           <button class="add-guest-btn" onclick="addGuestField()">+ Add person</button>
@@ -551,11 +199,9 @@
         <div id="guest-fields">
           <div class="no-guests-note">Just you for now — click "Add person" to include others.</div>
         </div>
-
         <button class="btn-submit" id="submit-btn" onclick="addPerson()">Add my availability</button>
         <div class="form-error" id="form-error"></div>
       </div>
-
       <div class="section-label">Responses so far (<span id="count">0</span>)</div>
       <div id="person-list"><div class="loading-state">Loading responses...</div></div>
     </div>
@@ -593,9 +239,7 @@ const PASS = 'kakachalevaka';
 const COLORS = ['#1D9E75','#534AB7','#D85A30','#185FA5','#BA7517','#993556','#3B6D11','#993C1D','#7F77DD','#D4537E'];
 const WIN_START = new Date('2026-12-18');
 const WIN_END   = new Date('2027-01-10');
-
-let sb, people = [];
-let guestCount = 0;
+let sb, people = [], guestCount = 0;
 
 function checkPw() {
   const val = document.getElementById('gate-pw').value.trim();
@@ -607,8 +251,7 @@ function checkPw() {
     initSupabase();
   } else {
     err.textContent = 'Incorrect password. Try again.';
-    inp.classList.add('error');
-    inp.value = '';
+    inp.classList.add('error'); inp.value = '';
     setTimeout(() => { inp.classList.remove('error'); err.textContent = ''; }, 2000);
   }
 }
@@ -625,13 +268,9 @@ async function loadPeople() {
   const { data, error } = await sb.from('availability').select('*').order('created_at', { ascending: true });
   if (error) { console.error(error); return; }
   people = (data || []).map((r, i) => ({
-    id: r.id,
-    name: r.name,
-    days: r.max_days,
-    from: parseDate(r.available_from),
-    to: parseDate(r.available_to),
-    guests: r.guests || [],
-    color: COLORS[i % COLORS.length]
+    id: r.id, name: r.name, days: r.max_days,
+    from: parseDate(r.available_from), to: parseDate(r.available_to),
+    guests: r.guests || [], color: COLORS[i % COLORS.length]
   }));
   renderList();
   if (document.getElementById('tab-results').classList.contains('active')) renderResults();
@@ -642,12 +281,9 @@ function addGuestField() {
   const note = container.querySelector('.no-guests-note');
   if (note) note.remove();
   guestCount++;
-  const id = 'guest-' + guestCount;
   const row = document.createElement('div');
-  row.className = 'guest-row';
-  row.id = 'guest-row-' + guestCount;
-  row.innerHTML = `
-    <input type="text" id="${id}" placeholder="Guest name" maxlength="30">
+  row.className = 'guest-row'; row.id = 'guest-row-' + guestCount;
+  row.innerHTML = `<input type="text" id="guest-${guestCount}" placeholder="Guest name" maxlength="30">
     <button class="remove-guest-btn" onclick="removeGuestField(${guestCount})" title="Remove">×</button>`;
   container.appendChild(row);
 }
@@ -656,15 +292,13 @@ function removeGuestField(n) {
   const row = document.getElementById('guest-row-' + n);
   if (row) row.remove();
   const container = document.getElementById('guest-fields');
-  if (!container.querySelector('.guest-row')) {
+  if (!container.querySelector('.guest-row'))
     container.innerHTML = '<div class="no-guests-note">Just you for now — click "Add person" to include others.</div>';
-  }
 }
 
 function getGuestNames() {
   return Array.from(document.querySelectorAll('#guest-fields .guest-row input'))
-    .map(i => i.value.trim())
-    .filter(v => v.length > 0);
+    .map(i => i.value.trim()).filter(v => v.length > 0);
 }
 
 function showTab(t) {
@@ -695,22 +329,12 @@ async function addPerson() {
   if (diffDays(fd, td) < days) { showError('Your availability window must be at least as long as your max duration.'); return; }
   if (people.find(p => p.name.toLowerCase() === name.toLowerCase())) { showError('That name is already added.'); return; }
   showError('');
-
   const guests = getGuestNames();
   const btn = document.getElementById('submit-btn');
   btn.disabled = true; btn.textContent = 'Saving...';
-
-  const { error } = await sb.from('availability').insert({
-    name,
-    available_from: from,
-    available_to: to,
-    max_days: days,
-    guests: guests
-  });
-
+  const { error } = await sb.from('availability').insert({ name, available_from: from, available_to: to, max_days: days, guests });
   btn.disabled = false; btn.textContent = 'Add my availability';
   if (error) { showError('Could not save — please try again.'); console.error(error); return; }
-
   document.getElementById('inp-name').value = '';
   document.getElementById('inp-days').value = '';
   document.getElementById('guest-fields').innerHTML = '<div class="no-guests-note">Just you for now — click "Add person" to include others.</div>';
@@ -728,24 +352,21 @@ function renderList() {
   if (!people.length) { el.innerHTML = '<div class="empty-state">No responses yet — be the first to add yours!</div>'; return; }
   el.innerHTML = '<div class="card" style="padding:0.5rem 1.25rem">' +
     people.map(p => {
-      const totalPeople = 1 + (p.guests ? p.guests.length : 0);
-      const guestChips = p.guests && p.guests.length
-        ? p.guests.map(g => `<span class="guest-chip">${g}</span>`).join('')
-        : '';
-      return `
-        <div class="person-row">
-          <div class="avatar" style="background:${p.color}22;color:${p.color}">${initials(p.name)}</div>
-          <div class="person-info">
-            <div class="person-name">${p.name}</div>
-            <div class="person-dates">${fmtShort(p.from)} – ${fmtShort(p.to)}</div>
-            ${guestChips ? `<div class="person-guests">${guestChips}</div>` : ''}
-          </div>
-          <div class="person-right">
-            <div class="person-days">${p.days}d max</div>
-            ${totalPeople > 1 ? `<div class="headcount-badge">${totalPeople} people</div>` : ''}
-            <button class="remove-btn" onclick="removePerson('${p.id}')" title="Remove">×</button>
-          </div>
-        </div>`;
+      const total = 1 + (p.guests ? p.guests.length : 0);
+      const chips = p.guests && p.guests.length ? p.guests.map(g => `<span class="guest-chip">${g}</span>`).join('') : '';
+      return `<div class="person-row">
+        <div class="avatar" style="background:${p.color}22;color:${p.color}">${initials(p.name)}</div>
+        <div class="person-info">
+          <div class="person-name">${p.name}</div>
+          <div class="person-dates">${fmtShort(p.from)} – ${fmtShort(p.to)}</div>
+          ${chips ? `<div class="person-guests">${chips}</div>` : ''}
+        </div>
+        <div class="person-right">
+          <div class="person-days">${p.days}d max</div>
+          ${total > 1 ? `<div class="headcount-badge">${total} people</div>` : ''}
+          <button class="remove-btn" onclick="removePerson('${p.id}')" title="Remove">×</button>
+        </div>
+      </div>`;
     }).join('') + '</div>';
 }
 
@@ -766,10 +387,7 @@ function computeOverlap() {
       const count = matching.length;
       const headcount = matching.reduce((s, p) => s + 1 + (p.guests ? p.guests.length : 0), 0);
       const score = count * 100 + len;
-      if (count > 0 && score > bestScore) {
-        bestScore = score;
-        best = { start: new Date(d), end: new Date(wEnd), count, len, total: people.length, headcount };
-      }
+      if (count > 0 && score > bestScore) { bestScore = score; best = { start: new Date(d), end: new Date(wEnd), count, len, total: people.length, headcount }; }
     }
     d = new Date(d.getTime() + 86400000);
   }
@@ -801,10 +419,7 @@ function computeAlternatives(best) {
 }
 
 function buildCalendar(best) {
-  const months = [
-    { year: 2026, month: 11, label: 'December 2026' },
-    { year: 2027, month: 0,  label: 'January 2027' }
-  ];
+  const months = [{ year: 2026, month: 11, label: 'December 2026' }, { year: 2027, month: 0, label: 'January 2027' }];
   let html = '<div class="section-label" style="margin-top:1.5rem">Availability calendar</div><div class="card">';
   months.forEach(({ year, month, label }) => {
     html += `<div class="cal-month-label">${label}</div><div class="cal-grid">`;
@@ -827,11 +442,7 @@ function buildCalendar(best) {
     }
     html += '</div>';
   });
-  html += '<div class="legend">';
-  html += '<div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div>Best window</div>';
-  html += '<div class="legend-item"><div class="legend-dot" style="background:#9FE1CB"></div>75%+ available</div>';
-  html += '<div class="legend-item"><div class="legend-dot" style="background:#FAC775"></div>30–74% available</div>';
-  html += '</div></div>';
+  html += '<div class="legend"><div class="legend-item"><div class="legend-dot" style="background:#1D9E75"></div>Best window</div><div class="legend-item"><div class="legend-dot" style="background:#9FE1CB"></div>75%+ available</div><div class="legend-item"><div class="legend-dot" style="background:#FAC775"></div>30–74% available</div></div></div>';
   return html;
 }
 
@@ -842,33 +453,27 @@ function renderResults() {
   if (!best) { el.innerHTML = '<div class="empty-state">No overlapping window found. Try expanding your availability dates.</div>'; return; }
   const alts = computeAlternatives(best);
   const totalHeadcount = getTotalHeadcount();
-
   let html = `<div class="stats-grid">
     <div class="stat"><div class="stat-num">${people.length}</div><div class="stat-lbl">Responses</div></div>
     <div class="stat"><div class="stat-num">${totalHeadcount}</div><div class="stat-lbl">Total travellers</div></div>
     <div class="stat"><div class="stat-num">${best.headcount}</div><div class="stat-lbl">Can make best window</div></div>
     <div class="stat"><div class="stat-num">${best.len}</div><div class="stat-lbl">Days together</div></div>
-  </div>`;
-
-  html += `<div class="result-best">
+  </div>
+  <div class="result-best">
     <div class="result-best-label">Best window</div>
     <div class="result-best-window">${fmtDate(best.start)} – ${fmtDate(best.end)}</div>
     <div class="result-best-sub">${best.headcount} of ${totalHeadcount} travellers available &nbsp;·&nbsp; ${best.count} of ${best.total} responses &nbsp;·&nbsp; ${best.len} days</div>
   </div>`;
-
   if (alts.length) {
     html += '<div class="section-label" style="margin-top:0.25rem;margin-bottom:8px">Alternatives</div>';
     alts.forEach(a => {
       html += `<div class="result-alt">
-        <div>
-          <div class="result-alt-window">${fmtDate(a.start)} – ${fmtDate(a.end)}</div>
-          <div class="result-alt-sub">${a.headcount} travellers &nbsp;·&nbsp; ${a.count} of ${people.length} responses</div>
-        </div>
+        <div><div class="result-alt-window">${fmtDate(a.start)} – ${fmtDate(a.end)}</div>
+        <div class="result-alt-sub">${a.headcount} travellers &nbsp;·&nbsp; ${a.count} of ${people.length} responses</div></div>
         <div class="result-alt-days">${a.len} days</div>
       </div>`;
     });
   }
-
   html += buildCalendar(best);
   el.innerHTML = html;
 }
